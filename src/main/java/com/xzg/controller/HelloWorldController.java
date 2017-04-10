@@ -55,6 +55,7 @@ public class HelloWorldController {
         session.setAttribute("uid", uid);
         return session.getId();
     }
+    
     @RequestMapping("/update.do")
     @ResponseBody
     public String update(@RequestParam String name){

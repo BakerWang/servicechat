@@ -12,19 +12,18 @@ public class RedisObjectSerializer implements RedisSerializer<Object> {
 	  private Converter<byte[], Object> deserializer = new DeserializingConverter();
 
 	  static final byte[] EMPTY_ARRAY = new byte[0];
-
+	  //反序列化
 	  public Object deserialize(byte[] bytes) {
 	    if (isEmpty(bytes)) {
 	      return null;
 	    }
-
 	    try {
 	      return deserializer.convert(bytes);
 	    } catch (Exception ex) {
 	      throw new SerializationException("Cannot deserialize", ex);
 	    }
 	  }
-
+	  //序列化
 	  public byte[] serialize(Object object) {
 	    if (object == null) {
 	      return EMPTY_ARRAY;
