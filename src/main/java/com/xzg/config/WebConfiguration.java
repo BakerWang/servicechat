@@ -42,6 +42,7 @@ public class WebConfiguration {
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         registration.addUrlMappings("*.do");
+        registration.addUrlMappings("/*");//index
         registration.addUrlMappings("*.json");
         return registration;
     }

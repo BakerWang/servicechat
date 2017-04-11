@@ -35,7 +35,10 @@ public class HelloWorldController {
 	private UpdateServiceImp updateServiceImp;
 	@Autowired
 	private UserMapper usermapper;
-	
+	@RequestMapping("/")
+    public String index() {
+        return "index";
+    }
     @RequestMapping("/getUser.do")
     @ResponseBody
     public List<User> getUser() {
