@@ -16,7 +16,7 @@ public interface UserMapper {
     
     void insert(User user);
 
-    void update(User user);
+    void updateUser(User user);
     
     @Delete("DELETE FROM t_user WHERE id =#{id}")
     void delete(Long id);

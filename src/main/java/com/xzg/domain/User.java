@@ -46,7 +46,15 @@ public class User  implements Serializable{
 	private int age;
 	  @Column(nullable = false)
 	private String password;
+	  @Column(nullable = false)
+	 private String ip;
 	  
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	public String getUserName() {
 		return userName;
 	}

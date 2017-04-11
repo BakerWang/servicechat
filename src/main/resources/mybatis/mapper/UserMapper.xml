@@ -8,12 +8,12 @@
         <result column="user_name" property="userName" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="age" property="age" jdbcType="BIGINT" />
+        <result column="ip" property="ip" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_name, password, age
+        id, user_name, password,age,ip
     </sql>
-
     <select id="getAll" resultMap="BaseResultMap"  >
        SELECT 
        <include refid="Base_Column_List" />
@@ -26,16 +26,15 @@
        FROM t_user
        WHERE id = #{id}
     </select>
-
-    <insert id="insert" parameterType="com.xzg.domain.User" >
+    <insert id="insertUser" parameterType="com.xzg.domain.User" >
        INSERT INTO 
             t_user
-            (user_Name,password,age) 
+            (user_Name,password,age,ip) 
         VALUES
             (#{userName}, #{password}, #{age})
     </insert>
 
-    <update id="update" parameterType="com.xzg.domain.User" >
+    <update id="updateUser" parameterType="com.xzg.domain.User" >
        UPDATE 
             t_user 
        SET 
@@ -45,11 +44,20 @@
        WHERE 
             id = #{id}
     </update>
+<update id="updateIp" parameterType="com.xzg.domain.User" >
+       UPDATE 
+            t_user 
+       SET 
+        <if test="ip != null">ip = #{ip},</if>
+        1 = 1 
+       WHERE 
+            id = #{id}
+    </update>
 
-   <!--  <delete id="delete" parameterType="java.lang.Long" >
+    <delete id="deleteUser" parameterType="java.lang.Long" >
        DELETE FROM
              t_user 
        WHERE 
              id =#{id}
-    </delete> -->
+    </delete>
 </mapper>
