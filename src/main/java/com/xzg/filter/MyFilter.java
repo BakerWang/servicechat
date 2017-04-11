@@ -8,14 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-
-public class MyFilter implements Filter {
+import com.xzg.service.PublicInfo;
+@WebFilter(urlPatterns = "/*", filterName = "myfilter")
+public class MyFilter implements Filter,PublicInfo {
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
@@ -25,12 +23,13 @@ public class MyFilter implements Filter {
             throws IOException, ServletException {
         // TODO Auto-generated method stub
         HttpServletRequest request = (HttpServletRequest) srequest;
-        System.out.println("this is MyFilter,url :"+request.getRequestURI());
+        logger.info("this is MyFilter,url :"+request.getRequestURI());
         filterChain.doFilter(srequest, sresponse);
     }
     @Override
     public void init(FilterConfig arg0) throws ServletException {
         // TODO Auto-generated method stub
+    	logger.info("=========first init filter====");
     }
     
     /**spring boot 采用自己SpringBoot 配置bean的方式进行配置的，SpringBoot提供了三种BeanFilterRegistrationBean、ServletRegistrationBean、ServletListenerRegistrationBean

@@ -1,6 +1,8 @@
 package com.xzg.service;
 
+import org.apache.log4j.Logger;
 public interface PublicInfo {
+	public  static Logger logger = Logger.getLogger(PublicInfo.class);
 	public static final String SUCCESS = "success";
 	public static final String ERROR = "error";
 	// 1.定义枚举类型
