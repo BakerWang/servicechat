@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,5 +96,10 @@ public class HelloWorldController {
    @RequestMapping(value="/delMuser.do",method=RequestMethod.GET)
    public void delMuser(@RequestParam long id){
 	   usermapper.delete(id);
+   }
+   @RequestMapping(value="/login.do",method=RequestMethod.GET)
+   public String login(@RequestParam("email")String email,@RequestParam("password")String password){
+	   
+	   return null;
    }
 }

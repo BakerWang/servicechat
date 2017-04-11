@@ -9,10 +9,11 @@
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="age" property="age" jdbcType="BIGINT" />
         <result column="ip" property="ip" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_name, password,age,ip
+        id, user_name, password,age,ip,email
     </sql>
     <select id="getAll" resultMap="BaseResultMap"  >
        SELECT 
@@ -29,9 +30,9 @@
     <insert id="insertUser" parameterType="com.xzg.domain.User" >
        INSERT INTO 
             t_user
-            (user_Name,password,age,ip) 
+            (user_Name,password,age,ip,email) 
         VALUES
-            (#{userName}, #{password}, #{age})
+            (#{userName}, #{password}, #{age},#{ip},#{email})
     </insert>
 
     <update id="updateUser" parameterType="com.xzg.domain.User" >
@@ -39,7 +40,7 @@
             t_user 
        SET 
         <if test="userName != null">user_Name = #{userName},</if>
-        <if test="passWord != null">passWord = #{password},</if>
+        <if test="passWord != null">email = #{email},</if>
         age = #{age}
        WHERE 
             id = #{id}

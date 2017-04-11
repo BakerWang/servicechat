@@ -48,7 +48,14 @@ public class User  implements Serializable{
 	private String password;
 	  @Column(nullable = false)
 	 private String ip;
-	  
+	  @Column(nullable = false)
+	 private String email;
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getIp() {
 		return ip;
 	}
