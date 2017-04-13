@@ -66,10 +66,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		 <dependency>
+		<!-- 引入security模块 -->
+       <!--  <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency> -->
+		<!--  <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
-        </dependency>
+        </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -77,11 +82,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
-	<dependency>
+	<!-- <dependency>
     	<groupId>org.mybatis.spring.boot</groupId>
    	 	<artifactId>mybatis-spring-boot-starter</artifactId>
     	<version>1.1.1</version>
-	</dependency>
+	</dependency> -->
          <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
