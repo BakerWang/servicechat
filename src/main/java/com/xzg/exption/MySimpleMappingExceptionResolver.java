@@ -16,20 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration//注入到spring管理，否则被spring识别调用
 public class MySimpleMappingExceptionResolver implements HandlerExceptionResolver {
+	
 public ModelAndView resolveException(HttpServletRequest request,
     HttpServletResponse response, Object object, Exception exception) {
 // 判断是否ajax请求
 if (!(request.getHeader("accept").indexOf("application/json") > -1 || (request
         .getHeader("X-Requested-With") != null && request.getHeader(
         "X-Requested-With").indexOf("XMLHttpRequest") > -1))) {
-    // 如果不是ajax，JSP格式返回
-    // 为安全起见，只有业务异常我们对前端可见，否则否则统一归为系统异常
+	// 如果不是ajax，JSP格式返回
+	// 为安全起见，只有业务异常我们对前端可见，否则否则统一归为系统异常
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("success", false);
     if (exception instanceof BusinessException) {
         map.put("errorMsg", exception.getMessage());
     } else {
-        map.put("errorMsg", "系统异常！");
+        map.put("errorMsg", "系统异常,请联系管理员！");
     }
     //这里需要手动将异常打印出来，由于没有配置log，实际生产环境应该打印到log里面
     exception.printStackTrace();
@@ -46,7 +47,7 @@ if (!(request.getHeader("accept").indexOf("application/json") > -1 || (request
         if (exception instanceof BusinessException) {
             map.put("errorMsg", exception.getMessage());
         } else {
-            map.put("errorMsg", "系统异常！");
+            map.put("errorMsg", "系统异常,请联系管理员！");
         }
        // writer.write(JSONUtils.toJSONString(map));
         ObjectMapper mapper = new ObjectMapper(); //转换器  

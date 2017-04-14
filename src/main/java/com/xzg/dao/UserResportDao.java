@@ -25,4 +25,5 @@ public interface UserResportDao extends JpaRepository<User, Long>{
    
     @Query("select t from User t where t.id = :id")
     User findByUserId(@Param("id")int id);
+    
 }
