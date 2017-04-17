@@ -2,12 +2,13 @@ package com.xzg.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xzg.domain.User;
 
-//@Mapper
+@Repository
+@Transactional
 public interface UserMapper {
 
     List<User> getAll();
@@ -18,8 +19,4 @@ public interface UserMapper {
 
     void updateUser(User user);
     
-    @Delete("DELETE FROM t_user WHERE id =#{id}")
-    void delete(Long id);
-
-
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+<p th:text="'Hello！, ' + ${name} + '!'" >3333</p>
+<a th:href="@{http://blog.csdn.net/u012706811}">绝对路径</a>
+<a th:href="@{/}">相对路径</a>
+<a th:href="@{css/bootstrap.min.css}">Content路径,默认访问static下的css文件夹</a>
+
+<img alt="activiti" src="${ctx}/images/activiti_logo.png"><font size="6" style="font-weight: bold;"></font>
+${loginuser.userId }(<c:forEach items="${listGroup }" var="group">
+	<c:out value="${group.roleName }"></c:out>
+</c:forEach>),<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) %>
+<c:if test="${empty loginuser.userId}" var="islogin">
+<a href="${ctx }/login.do" target="_top">登录</a>
+</c:if>
+<c:if test="${!islogin}">
+<a href="${ctx }/loginout.do" target="_top">退出</a>
+</c:if>
+</body>
+</html>

@@ -24,6 +24,7 @@ import com.xzg.exption.Assert;
 import com.xzg.exption.BusinessException;
 import com.xzg.exption.ErrorKind;
 import com.xzg.hander.TestException;
+import com.xzg.mapper.UserAutowordMapper;
 import com.xzg.mapper.UserMapper;
 import com.xzg.serviceImple.UpdateServiceImp;
 
@@ -106,13 +107,9 @@ public class HelloWorldController {
 	   User user = usermapper.getOne(id);
 	   return user;
    }
-   @RequestMapping(value="/delMuser.do",method=RequestMethod.GET)
-   public void delMuser(@RequestParam long id){
-	   usermapper.delete(id);
-   }
-   @RequestMapping(value="/login.do",method=RequestMethod.GET)
+   @RequestMapping(value="/login.do",method={RequestMethod.GET,RequestMethod.POST})
    public String login(){
-	   return "login";
+	   return "user/menue";
    }
    //websocket
    @RequestMapping(value="/webSocket.do",method=RequestMethod.POST)

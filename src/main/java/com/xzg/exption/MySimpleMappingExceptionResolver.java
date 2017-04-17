@@ -9,14 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
-//import com.alibaba.druid.support.json.JSONUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration//注入到spring管理，否则被spring识别调用
 public class MySimpleMappingExceptionResolver implements HandlerExceptionResolver {
-	
 public ModelAndView resolveException(HttpServletRequest request,
     HttpServletResponse response, Object object, Exception exception) {
 // 判断是否ajax请求
