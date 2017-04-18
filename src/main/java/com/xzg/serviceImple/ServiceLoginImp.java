@@ -1,25 +1,28 @@
 package com.xzg.serviceImple;
 
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Service;
 
-import com.xzg.domain.User;
 import com.xzg.service.ServiceLogin;
-
+import com.xzg.hander.Util.CookieUtil;
+import com.xzg.mapper.UserMapper;
+@Service
 public class ServiceLoginImp implements ServiceLogin  {
-	@Resource
-	private RedisTemplate redisTemplate; 
-	ValueOperations<String, User> operations=redisTemplate.opsForValue();
+	 @Resource
+	private UserMapper usermapper;
 	//保存到redis
 	@Override
-	public boolean isTruePassword() {
+	public boolean checkPassword(int id,String password) {
 		// TODO Auto-generated method stub
-		
-		return false;
+		 password=CookieUtil.getMD5(password);//加密用户密码
+		 long result = 0L;
+		 result = usermapper.isExits(id, password);
+		 if(result  == 0L){
+			 return false;
+		 }
+		return true;
 	}
 
 

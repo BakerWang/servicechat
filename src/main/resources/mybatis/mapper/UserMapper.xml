@@ -10,10 +10,11 @@
         <result column="age" property="age" jdbcType="BIGINT" />
         <result column="ip" property="ip" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
+         <result column="online" property="online" jdbcType="CHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_name, password,age,ip,email
+        id, user_name, password,age,ip,email,online
     </sql>
     <select id="getAll" resultMap="BaseResultMap"  >
        SELECT 
@@ -26,6 +27,16 @@
        <include refid="Base_Column_List" />
        FROM t_user
        WHERE id = #{id}
+    </select>
+    <select id="isExits" parameterType="java.lang.Long" resultMap="java.lang.Long" >
+        SELECT 
+      			id
+       FROM 
+       			t_user
+       WHERE 
+       		id = #{id}
+      AND
+      		password=#{password}
     </select>
     <insert id="insertUser" parameterType="com.xzg.domain.User" >
        INSERT INTO 
@@ -54,11 +65,11 @@
        WHERE 
             id = #{id}
     </update>
-
     <delete id="deleteUser" parameterType="java.lang.Long" >
        DELETE FROM
              t_user 
        WHERE 
              id =#{id}
     </delete>
+    
 </mapper>

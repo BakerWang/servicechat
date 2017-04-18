@@ -1,6 +1,8 @@
 package com.xzg.filter;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,7 +12,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.xzg.exption.Assert;
 import com.xzg.service.PublicInfo;
 @WebFilter(urlPatterns = "/*", filterName = "myfilter")
 public class MyFilter implements Filter,PublicInfo {
@@ -23,7 +27,20 @@ public class MyFilter implements Filter,PublicInfo {
             throws IOException, ServletException {
         // TODO Auto-generated method stub
         HttpServletRequest request = (HttpServletRequest) srequest;
-        logger.info("this is MyFilter,url :"+request.getRequestURI());
+        String uri = request.getRequestURI();
+        logger.info("this is MyFilter,url :"+uri);
+        //正则表达式匹配
+        String  regEx = ".do$";
+        // 编译正则表达式
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(uri);
+        // 字符串是否与正则表达式相匹配
+        boolean rs = matcher.matches();
+        if(rs){
+        	 HttpSession httpSession = request.getSession();
+        	  //防止篡改登录
+             Assert.asse(httpSession.getAttribute("uid") != null, "请先登录！");
+        }
         filterChain.doFilter(srequest, sresponse);
     }
     @Override

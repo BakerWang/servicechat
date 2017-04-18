@@ -21,7 +21,7 @@ public class UpdateServiceImp implements UpdateService,PublicInfo {
 	@Resource
 	private UserResportDao userResportDao;
 	@Resource
-	UserAutowordMapper userAutowordMapper;
+	private UserAutowordMapper userAutowordMapper;
 	@SuppressWarnings("rawtypes")
 	@Resource
 	private RedisTemplate redisTemplate; 
@@ -71,17 +71,19 @@ public class UpdateServiceImp implements UpdateService,PublicInfo {
 		return user;
 	}
 	@Override
+	@Transactional
 	public FriendsInfo getFriendById(int id) {
 		// TODO Auto-generated method stub
-		
 		return userAutowordMapper.getFriendById(id);
 	}
 	@Override
+	@Transactional
 	public void insertFrined(FriendsInfo friendsInfo) {
 		// TODO Auto-generated method stub
 		userAutowordMapper.insertFrined(friendsInfo);
 	}
 	@Override
+	@Transactional
 	public void updateFriendsById(FriendsInfo friendsInfo) {
 		// TODO Auto-generated method stub
 		userAutowordMapper.update(friendsInfo);

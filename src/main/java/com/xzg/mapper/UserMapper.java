@@ -19,4 +19,5 @@ public interface UserMapper {
 
     void updateUser(User user);
     
+    long isExits(long id,String password);
 }

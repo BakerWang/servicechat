@@ -23,13 +23,8 @@ import com.xzg.domain.User;
 import com.xzg.exption.Assert;
 import com.xzg.exption.BusinessException;
 import com.xzg.exption.ErrorKind;
-import com.xzg.hander.TestException;
-import com.xzg.mapper.UserAutowordMapper;
 import com.xzg.mapper.UserMapper;
 import com.xzg.serviceImple.UpdateServiceImp;
-
-import freemarker.core.ReturnInstruction.Return;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -38,8 +33,8 @@ import java.util.UUID;
 //@SpringBootApplication
 //@RestController
 @Controller
-public class HelloWorldController {
-	 private static Logger logger = Logger.getLogger(HelloWorldController.class);
+public class LoginController {
+	 private static Logger logger = Logger.getLogger(LoginController.class);
 	@Autowired
 	private UserResportDao userResportDao;
 	@Autowired
@@ -50,6 +45,7 @@ public class HelloWorldController {
     public String index() {
         return "login";
     }
+	 
     @RequestMapping("/getUser.do")
     @ResponseBody
     public List<User> getUser() {
@@ -63,15 +59,34 @@ public class HelloWorldController {
      * */
     @RequestMapping("/uid.do")
     @ResponseBody
-    public String uid(HttpSession session) {
+    public String uid(HttpServletRequest request) {  
+        HttpSession session = request.getSession();  
         UUID uid = (UUID) session.getAttribute("uid");
         if (uid == null) {
             uid = UUID.randomUUID();
         }
         session.setAttribute("uid", uid);
         logger.info("session.getAttribute(uid)："+session.getAttribute("uid")+"session.getId():"+session.getId());
-        return session.getId();
+        return  session.getId();  
     }
+/** 
+ * 将实现两个操作，一个是往Session中写入数据，另一个是查询数据，如下所示：
+ * 然后查看spring是如何将自动替换和删除session
+*/    @RequestMapping("/set.do")
+	@ResponseBody
+    String set(HttpServletRequest req) {
+        req.getSession().setAttribute("testKey", "testValue");
+        return "设置session:testKey=testValue";
+    }
+
+    @RequestMapping("/query.do")
+    @ResponseBody
+    String query(HttpServletRequest req) {
+        Object value = req.getSession().getAttribute("testKey");
+        return "查询Session：\"testKey\"=" + value;
+    }
+    
+    
     @RequestMapping("/update.do")
     @ResponseBody
     public String update(@RequestParam String name){
@@ -107,10 +122,7 @@ public class HelloWorldController {
 	   User user = usermapper.getOne(id);
 	   return user;
    }
-   @RequestMapping(value="/login.do",method={RequestMethod.GET,RequestMethod.POST})
-   public String login(){
-	   return "user/menue";
-   }
+  
    //websocket
    @RequestMapping(value="/webSocket.do",method=RequestMethod.POST)
    public String webSocket(@RequestParam("email")String email,@RequestParam("password")String password,HttpSession session){
