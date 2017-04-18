@@ -5,10 +5,22 @@
 </head>
 <body>
 Welcome<br/>
-<input id="text" type="text" /><button onclick="send()">Send</button>   
-<button onclick="closeWebSocket()">Close</button>
-<div id="message">
-</div>
+ <div th:fragment="navbar"  class="wrapper"  role="navigation">
+    <div th:replace="fragments/header :: header">
+    </div>
+    <div th:replace="fragments/left :: left">left</div>
+    <div th:replace="fragments/sidebar :: sidebar">sidebar</div>
+    <div layout:fragment="content" id="content" >
+    	<p>Name: <span th:text="${user.userName}">Sebastian</span>.</p>
+    	<!-- <p>当前时间: <span th:text="${#dates.format(now, 'dd/MMM/yyyy HH:mm')}">Saturn</span>.</p> -->
+    	<p>当前时间: <span th:text="${now}">Saturn</span>.</p>
+    	<input id="text" type="text" /><button onclick="send()">Send</button>   
+		<button onclick="closeWebSocket()">Close</button>
+		<div id="message"></div>
+    </div>
+    <div th:replace="fragments/footer :: footer">footer</div>
+  </div>
+
 </body>
 <script type="text/javascript">
     var websocket = null;

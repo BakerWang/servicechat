@@ -1,10 +1,7 @@
 package com.xzg.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-import org.springframework.session.web.http.HeaderHttpSessionStrategy;
-import org.springframework.session.web.http.HttpSessionStrategy;
 /*注解 EnableRedisHttpSession 创建了一个名为springSessionRepositoryFilter的Spring Bean，
 该Bean实现了Filter接口。该filter负责通过 Spring Session
 替换HttpSession从哪里返回。这里Spring Session是通过 redis 返回。 */
@@ -18,10 +15,14 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 public class SessionConfig {
 /*	 httpSessionStrategy()，用来定义Spring Session的 HttpSession 集成使用HTTP的头来取代使用 
 	 cookie 传送当前session信息。*/
-	@Bean  
+	/**Spring Session对HTTP的支持是通过标准的servlet filter来实现的，这个filter必须要配置
+	为拦截所有的web应用请求，并且它应该是filter链中的第一个filter。Spring Session 
+	filter会确保随后调用javax.servlet.http.HttpServletRequest的getSession()方法时，
+	都会返回Spring Session的HttpSession实例，而不是应用服务器默认的HttpSession。*/
+	/*@Bean  
     public HttpSessionStrategy httpSessionStrategy() {  
         return new HeaderHttpSessionStrategy();  
-    } 
+    } */
 	//如果使用下面的代码，则是使用cookie来传送 session 信息。
 	/*@Bean  
 	public HttpSessionStrategy httpSessionStrategy() {  

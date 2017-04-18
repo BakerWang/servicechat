@@ -1,12 +1,17 @@
 package com.xzg.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,34 +54,35 @@ public class NettyServiceController {
 	
 	@RequestMapping(value="/login.do",method={RequestMethod.GET,RequestMethod.POST})
 	public String loginin(@RequestParam("email")String userid,@RequestParam("password")String password,
-			HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes){
+			HttpServletRequest request, HttpServletResponse response,Model model){
 		String forword="";
-		
+		User user = null;
 		int id = Integer.valueOf(userid);
-		if((userid!=null&&userid.length()>0)&&(password!=null&&password.length()>0)){
-			boolean bl = serviceLoginImp.checkPassword(id, password);
-			if(bl){
-				User user= updateServiceImp.findByUserId(id);
-				//request.getSession().setAttribute("loginuser", user);
-				if(userid.equals("")){
-					redirectAttributes.addFlashAttribute("message", "您已登录，请不要重复登录!");
-					forword="/login.do";//login.jsp
-				}else{
-						/*application.setAttribute("userid", userid);
-					 	request.getSession().setAttribute("sessionListener", sessionListener);*/
-						redirectAttributes.addFlashAttribute("message", "登录成功!");
-						forword="user/menue";//main.jsp
-				}
+		//boolean bl = serviceLoginImp.checkPassword(id, password);
+		user = serviceLoginImp.chkPwdRt(id, password);
+		if(null == user){
+			 model.addAttribute("message", "用户名或密码错误!");
+			forword="login";//
+			//request.getSession().setAttribute("sessionListener", sessionListener);*/
 			}else{
-				redirectAttributes.addFlashAttribute("message", "用户名或密码错误!");
+				request.getSession().setAttribute("loginuser", user);
 				//登录失败，在login_tmp表中更新字段num-1直到为0时锁定用户（5分钟内）当锁定用户时禁止登录
-				forword="/login.do";//login.jsp
+				String ip = request.getLocalAddr();
+				user.setIp(ip);
+				serviceLoginImp.updateUserIpById(user);
+				forword="user/menue";
 			}
-		}else{
-			forword="/login.do";//login.jsp
-			redirectAttributes.addFlashAttribute("message", "用户名或密码不能为空!");
-		}
-		return "redirect:"+forword;
+		return forword;
 }
-	
+	@RequestMapping(value="/websocket.do",method={RequestMethod.GET,RequestMethod.POST})
+	public String websocket(HttpSession httpSession,Model model){
+		//进行相应的业务处理
+		User user = null;
+		user = (User)httpSession.getAttribute("loginuser");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss");
+		String now = sdf.format(new Date());
+		model.addAttribute("user", user);
+		model.addAttribute("now", now);
+		return "webSocket/webSocket";
+	}
 }

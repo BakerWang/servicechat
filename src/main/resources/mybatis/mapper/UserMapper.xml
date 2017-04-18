@@ -4,10 +4,10 @@
     <!--开启二级缓存-->
 <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
     <resultMap id="BaseResultMap" type="com.xzg.domain.User" >
-        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_name" property="userName" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
-        <result column="age" property="age" jdbcType="BIGINT" />
+        <result column="age" property="age" jdbcType="INTEGER" />
         <result column="ip" property="ip" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
          <result column="online" property="online" jdbcType="CHAR" />
@@ -22,15 +22,26 @@
        FROM t_user
     </select>
 
-    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+    <select id="getOne" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
         SELECT 
        <include refid="Base_Column_List" />
        FROM t_user
        WHERE id = #{id}
     </select>
-    <select id="isExits" parameterType="java.lang.Long" resultMap="java.lang.Long" >
+    <select id="isExits" parameterType="java.lang.Integer" resultType="java.lang.Long" >
         SELECT 
       			id
+       FROM 
+       			t_user
+       WHERE 
+       		id = #{id}
+      AND
+      		password=#{password}
+    </select>
+    
+    <select id="returnUserByPw" resultMap="BaseResultMap" >
+        SELECT 
+      			<include refid="Base_Column_List" />
        FROM 
        			t_user
        WHERE 
@@ -65,7 +76,7 @@
        WHERE 
             id = #{id}
     </update>
-    <delete id="deleteUser" parameterType="java.lang.Long" >
+    <delete id="deleteUser" parameterType="java.lang.Integer" >
        DELETE FROM
              t_user 
        WHERE 

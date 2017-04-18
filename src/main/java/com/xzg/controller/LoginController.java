@@ -74,14 +74,14 @@ public class LoginController {
  * 然后查看spring是如何将自动替换和删除session
 */    @RequestMapping("/set.do")
 	@ResponseBody
-    String set(HttpServletRequest req) {
+   public  String set(HttpServletRequest req) {
         req.getSession().setAttribute("testKey", "testValue");
         return "设置session:testKey=testValue";
     }
 
     @RequestMapping("/query.do")
     @ResponseBody
-    String query(HttpServletRequest req) {
+   public String query(HttpServletRequest req) {
         Object value = req.getSession().getAttribute("testKey");
         return "查询Session：\"testKey\"=" + value;
     }
@@ -105,8 +105,9 @@ public class LoginController {
     public void saveUser(){
     	User user=new User();
         user.setAge(5);
-        user.setUserName("caiji");
-        user.setPassword("8888");
+        user.setUserName("小单");
+        user.setPassword("49BA59ABBE56E057");
+        user.setEmail("123@qq.com");
     	updateServiceImp.save(user);
     }
     //尝试使用thymeleaf作为前端模板
@@ -118,7 +119,7 @@ public class LoginController {
    //use mybits
    @RequestMapping(value="/getMuser.do",method=RequestMethod.GET)
    @ResponseBody
-   public User getMuser(@RequestParam long id){
+   public User getMuser(@RequestParam int id){
 	   User user = usermapper.getOne(id);
 	   return user;
    }

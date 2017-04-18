@@ -12,6 +12,7 @@
 </head>
 <body>
   <form method="post" action="/login.do" class="login">
+  <p style="background-color: red; width: 400px;height: 50px'" th:text="${message}"></p>
     <p>
       <label for="login">Email:</label>
       <input type="text" name="email"  placeholder="邮箱地址或登录名称"  id="login"></input>
