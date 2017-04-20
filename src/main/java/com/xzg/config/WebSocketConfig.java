@@ -4,7 +4,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
@@ -13,7 +12,7 @@ import com.xzg.hander.CountWebSocketHandler;
 import com.xzg.hander.HandshakeInterceptor;
 
 @Configuration
-@EnableWebSocket
+@EnableWebSocket//开启websocket  
 //@EnableWebSocketMessageBroker
 //通过EnableWebSocketMessageBroker 开启使用STOMP协议来传输基于代理(message broker)的消息,
 //此时浏览器支持使用@MessageMapping 就像支持@RequestMapping一样。
@@ -27,6 +26,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
     }
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new CountWebSocketHandler(), "/web/count").addInterceptors(new HandshakeInterceptor());
+        registry.addHandler(new CountWebSocketHandler(), "/ws").addInterceptors(new HandshakeInterceptor());
+        
+       // registry.addHandler(echoWebSocketHandler(), "/echo");
+        registry.addHandler(new CountWebSocketHandler(), "/echo").withSockJS();
     }
+    /*@Bean
+    public WebSocketHandler echoWebSocketHandler() {
+    	 return new EchoWebSocketHandler();
+    }*/
 }
