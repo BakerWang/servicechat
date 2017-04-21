@@ -29,7 +29,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(new CountWebSocketHandler(), "/ws").addInterceptors(new HandshakeInterceptor());
         
        // registry.addHandler(echoWebSocketHandler(), "/echo");
-        registry.addHandler(new CountWebSocketHandler(), "/echo").withSockJS();
+        //registry.addHandler(new CountWebSocketHandler(), "/echo").withSockJS();
     }
     /*@Bean
     public WebSocketHandler echoWebSocketHandler() {

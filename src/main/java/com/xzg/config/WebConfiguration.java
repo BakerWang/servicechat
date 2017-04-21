@@ -1,6 +1,15 @@
 package com.xzg.config;
 
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.filters.RemoteIpFilter;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.Ssl;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +26,10 @@ import com.xzg.filter.MyFilter;
  * 添加@Configurationz 注解，将自定义Filter加入过滤链
 */
 
+/**
+ * @author xzg
+ *
+ */
 @Configuration
 public class WebConfiguration {
 	/*@Bean标注在方法上(返回某个实例的方法)，等价于spring的xml配置文件中的<bean>
@@ -45,6 +58,60 @@ public class WebConfiguration {
         registration.addUrlMappings("/*");//index
         registration.addUrlMappings("*.json");
         return registration;
+    }
+    /**2017年4月21日
+     * @author xzg
+     * TODO 配置https
+     */
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return new EmbeddedServletContainerCustomizer() {
+            @Override
+            public void customize(ConfigurableEmbeddedServletContainer container) {
+                Ssl ssl = new Ssl();
+                //Server.jks中包含服务器私钥和证书
+                ssl.setKeyStore("keystore.p12");
+                ssl.setKeyStorePassword("123456");
+                container.setSsl(ssl);
+                container.setPort(8443);
+            }
+        };
+    }
+    
+    /**2017年4月21日
+     * @author xzg
+     * TODO 配置Http使其自动重定向到Https
+     * Embedded默认只有一个Connector，要在提供Https服务的同时支持Http，
+     * 需要添加一个Connector。在配置类中添加如下配置：
+     */
+    @Bean
+    public EmbeddedServletContainerFactory servletContainer() {
+        TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
+            @Override
+            protected void postProcessContext(Context context) {
+            	//SecurityConstraint必须存在，可以通过其为不同的URL设置不同的重定向策略。
+                SecurityConstraint constraint = new SecurityConstraint();
+                constraint.setUserConstraint("CONFIDENTIAL");
+                SecurityCollection collection = new SecurityCollection();
+                collection.addPattern("/*");
+                constraint.addCollection(collection);
+                context.addConstraint(constraint);
+            }
+        };
+        tomcat.addAdditionalTomcatConnectors(httpConnector());
+        return tomcat;
+    }
+
+    @Bean
+    public Connector httpConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("http");
+        //Connector监听的http的端口号
+        connector.setPort(8080);
+        connector.setSecure(false);
+        //监听到http的端口号后转向到的https的端口号
+        connector.setRedirectPort(8443);
+        return connector;
     }
 
 }

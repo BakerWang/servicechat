@@ -2,7 +2,6 @@ package com.xzg.hander;
 
 
 import org.apache.log4j.Logger;
-import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -36,8 +35,6 @@ public class CountWebSocketHandler extends TextWebSocketHandler {
     }
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-    	logger.info("princal========="+session.toString());
-    	logger.info("princal========="+session.getPrincipal().toString());
     	logger.info("princal========="+session.getPrincipal().getName());
         String princal = session.getPrincipal().getName();
         if(princal != null){

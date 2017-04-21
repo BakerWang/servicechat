@@ -14,9 +14,9 @@ Welcome<br/>
     	<p>Name: <span th:text="${user.userName}">Sebastian</span>.</p>
     	<!-- <p>当前时间: <span th:text="${#dates.format(now, 'dd/MMM/yyyy HH:mm')}">Saturn</span>.</p> -->
     	<p>当前时间: <span th:text="${now}">Saturn</span>.</p>
-    	<input id="text" type="text" /><button onclick="send()">Send</button>   
+    	<input id="responseText" type="text" /><button onclick="send()">Send</button>   
 		<button onclick="closeWebSocket()">Close</button>
-		<div id="message"></div>
+		<textarea id="message" style="width: 500px; height: 300px;"></textarea>
     </div>
     <div th:replace="fragments/footer :: footer">footer</div>
   </div>
@@ -54,7 +54,9 @@ Welcome<br/>
     }
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML){
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+       // document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        var ta = document.getElementById('message');
+        ta.value = ta.value + '\n' + event.data
     }
     //关闭连接
     function closeWebSocket(){

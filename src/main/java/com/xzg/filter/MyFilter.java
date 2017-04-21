@@ -36,8 +36,8 @@ public class MyFilter implements Filter,PublicInfo {
         Matcher matcher = pattern.matcher(uri);
         // 字符串是否与正则表达式相匹配
         boolean rs = matcher.matches();
+        HttpSession httpSession = request.getSession();
         if(rs){
-        	 HttpSession httpSession = request.getSession();
         	  //防止篡改登录
              Assert.asse(httpSession.getAttribute("uid") != null, "请先登录！");
         }
