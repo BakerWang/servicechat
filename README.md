@@ -54,5 +54,19 @@ server.ssl.keyAlias:tomcat
         connector.setRedirectPort(8443);
         return connector;
     }
+     /* 
+     @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return new EmbeddedServletContainerCustomizer() {
+            @Override
+            public void customize(ConfigurableEmbeddedServletContainer container) {
+                Ssl ssl = new Ssl();
+                ssl.setKeyStore("/home/xzg/java/workspace/servicechat/src/main/resources/key/keystore.p12");
+                ssl.setKeyStorePassword("123456");
+                container.setSsl(ssl);
+                container.setPort(8443);
+            }
+        };
+    }*/
 
 ```
