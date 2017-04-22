@@ -615,4 +615,17 @@
 	-mos-transition:all 0.3s linear;
 	-o-transition:all 0.3s linear;
 	}
-
+	/*********************************************************************************/
+/* 浮动div                                               */
+/*********************************************************************************/
+#stratChat{ 
+background:gray;
+width:510px; 
+height: 700px;
+border: 1px solid #D4CD49; 
+position:fixed;
+left:0;
+top:30% ;
+z-index:999;
+display: none;
+}

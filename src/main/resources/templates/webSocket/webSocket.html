@@ -14,9 +14,9 @@ Welcome<br/>
     	<p>Name: <span th:text="${user.userName}">Sebastian</span>.</p>
     	<!-- <p>当前时间: <span th:text="${#dates.format(now, 'dd/MMM/yyyy HH:mm')}">Saturn</span>.</p> -->
     	<p>当前时间: <span th:text="${now}">Saturn</span>.</p>
-    	<input id="responseText" type="text" /><button onclick="send()">Send</button>   
+    	<input id="text" type="text" /><button onclick="send()">Send</button>   
 		<button onclick="closeWebSocket()">Close</button>
-		<textarea id="message" style="width: 500px; height: 300px;"></textarea>
+		<div id="message"></div>
     </div>
     <div th:replace="fragments/footer :: footer">footer</div>
   </div>
@@ -27,7 +27,10 @@ Welcome<br/>
     //var url = 'ws://'+window.location.host+'/web/count';
     //判断当前浏览器是否支持WebSocket
     if('WebSocket' in window){
-        websocket = new WebSocket('ws://localhost:8080/ws');
+    	//http
+        /* websocket = new WebSocket('ws://localhost:8080/ws'); */
+        //https
+        websocket = new WebSocket('wss://localhost:8443/ws');
     }
     else{
         alert('Not support websocket')
@@ -54,9 +57,7 @@ Welcome<br/>
     }
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML){
-       // document.getElementById('message').innerHTML += innerHTML + '<br/>';
-        var ta = document.getElementById('message');
-        ta.value = ta.value + '\n' + event.data
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
     }
     //关闭连接
     function closeWebSocket(){

@@ -1,3 +1,18 @@
+/* var ws = $.websocket("ws://localhost:8080/ws", {
+			//发送消息
+			         
+		        open: function() {
+		        	
+		        },
+		        close: function() { 
+		        	
+		        },
+		        events: {
+		        	message: function(e) {
+		                	$('#content').append(e.data + '<br>')     
+		                }
+		        }
+		});*/
 function openwin() {
 	window.open ("page.html", "newwindow", "height=100, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
 };
@@ -16,23 +31,54 @@ var lanren = {
                 });
         }
 };
+/*	 $.ajax({
+cache: true,
+type: "POST",
+url:ajaxCallUrl,
+data:$('#yourformid').serialize(),// 你的formid
+async: false,
+error: function(request) {
+    alert("Connection error");
+},
+success: function(data) {
+    $("#commonLayout_appcreshi").parent().html(data);
+}
+}); */
 $(document).ready(function(){
-	 $("#startWebsocket").click(function(){ var websocket = null;
+	 $("#startWebsocket").click(function(){
+		 startWebsocket();
+		 $("#stratChat").show();
+	 });
+	 //关闭聊天
+	 $("#closeChat").click(function(){
+		 closeWebSocket();
+		 setTimeout(function () { 
+			 $("#stratChat").hide();
+		    }, 1000);
+	 });
+	 //发送聊天消息
+	 $('#sendMsg').click(function(){
+		 send();
+	 });
+//以下微websocket处理步骤
+	 var websocket = null;
+var  startWebsocket=function(){
 	    //var url = 'ws://'+window.location.host+'/web/count';
 	    //判断当前浏览器是否支持WebSocket
 	    if('WebSocket' in window){
-	        websocket = new WebSocket('ws://localhost:8080/ws');
+	    	  websocket = new WebSocket('wss://localhost:8443/ws');
 	    }
 	    else{
 	        alert('浏览器不支持 websocket')
 	    }
+}
 	    //连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	setMessage("error");
 	    };
 	    //连接成功建立的回调方法
 	    websocket.onopen = function(event){
-	    	setMessage("open");
+	    	setMessage("会话开始了！");
 	    }
 	    //接收到消息的回调方法
 	    websocket.onmessage = function(event){
@@ -40,7 +86,7 @@ $(document).ready(function(){
 	    }
 	    //连接关闭的回调方法
 	    websocket.onclose = function(){
-	    	setMessage("close");
+	    	setMessage("退出");
 	    }
 	    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
 	    window.onbeforeunload = function(){
@@ -50,26 +96,18 @@ $(document).ready(function(){
 	    function setMessage(event){
 	       // document.getElementById('message').innerHTML += innerHTML + '<br/>';
 	        var ta = document.getElementById('message');
-	        ta.value = ta.value + '\n' + event.data
+	        ta.value = ta.value + '\n' + event
 	    }
 	    //关闭连接
 	    function closeWebSocket(){
-	        websocket.close();
+	    		 websocket.close();
 	    }
 	    //发送消息
 	    function send(){
 	        var message = document.getElementById('responseText').value;
 	        websocket.send(message);
 	    }
-	    });
+	    
 	});
-
-
-/*<textarea id="responseText" style="width: 500px; height: 300px;"></textarea>
-<br>
-<input type="text" name="message"  style="width: 300px" value="开始：">
-<input type="button" value="发送消息" onclick="send(this.form.message.value)">
-<input type="button" onclick="javascript:document.getElementById('responseText').value=''" value="清空聊天记录">
-</form>*/
 
 

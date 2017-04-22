@@ -6,7 +6,7 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
  <link rel="stylesheet" th:href="@{/css/style.css}"></link>
-<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<!-- <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" /> -->
 <link  rel="stylesheet" th:href="@{/css/default.css}" type="text/css" media="all" />
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{/js/popwidown.js}"></script>
@@ -14,9 +14,6 @@
 lanren.navFast();
 
 </script>
-
-<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
-
 </head>
 <body>
 <div id="page" class="container">
@@ -84,10 +81,16 @@ lanren.navFast();
     <a href="#" target="_blank">好友列表</a>
     <a href="#" target="_blank">时间日期</a>
     <a href="#" target="_blank">焦点图</a>
-    <a id="startWebsocket"  th:href="@{/websocket.do}"  target="_blank">进入聊天室</a>
+   <!--  <a id="startWebsocket"  th:href="@{/websocket.do}"  target="_blank">进入聊天室</a> -->
+     <a id="startWebsocket"  target="_blank">进入聊天室</a>
     <a href="#" target="_blank">jQuery特效</a>
     <a href="#" target="_blank">图片特效</a>
     <a href="#" target="_blank">在线客服</a>
+</div>
+<div id="stratChat" >
+<input id="responseText" type="text" /><button id="sendMsg">发送消息</button>   
+<button id="closeChat">退出</button>
+<textarea id="message" style="width: 500px; height: 550px;"></textarea>
 </div>
 </body>
 </html>
