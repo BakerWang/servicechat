@@ -15,6 +15,10 @@ import org.springframework.stereotype.Repository;
 import com.xzg.domain.FriendsInfo;
 import com.xzg.domain.UserSexEnum;
 
+/**
+ * @author xzg
+ *	mybits的注解用法，对应mapper的xml配置用法
+ */
 @Repository
 @Transactional
 public interface UserAutowordMapper {
@@ -29,6 +33,12 @@ public interface UserAutowordMapper {
 		@Result(property = "userSex",  column = "user_sex", javaType = UserSexEnum.class),
 	})
 	FriendsInfo getFriendById(int id);
+	
+	@Select("SELECT * FROM friends_info WHERE userId = #{userId}")
+	@Results({
+		@Result(property = "userSex",  column = "user_sex", javaType = UserSexEnum.class),
+	})
+	List<FriendsInfo> getFriendByUserId(int userId);
 	
 	@Delete("DELETE FROM friends_info WHERE friends_id =#{id}")
 	 void deleteFriendsbyId(int id);

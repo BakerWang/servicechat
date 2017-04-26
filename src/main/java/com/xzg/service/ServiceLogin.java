@@ -5,5 +5,5 @@ import com.xzg.domain.User;
 public interface ServiceLogin {
 	public boolean checkPassword(int id,String password);
 	public User chkPwdRt(int id,String password);
-	public void updateUserIpById(User user);
+	public void updateUserIp(User user);
 }

@@ -124,16 +124,10 @@ public class LoginController {
    }
   
    //websocket
-   /*@RequestMapping(value="/webSocket.do",method={RequestMethod.GET,RequestMethod.POST})
-   //@RequestParam("email")String email,@RequestParam("password")String password
+   @RequestMapping(value="/webSocket.do",method={RequestMethod.GET,RequestMethod.POST})
    public String webSocket(){
-	   UUID uid = (UUID) session.getAttribute("uid");
-       if (uid == null) {
-           uid = UUID.randomUUID();
-       }
-       session.setAttribute("uid", uid);
 	   return "webSocket/webSocket";
-   }*/
+   }
    //业务共有异常类测试
    @RequestMapping(value="/errorhtml.do",method=RequestMethod.GET)
    public ModelAndView exceptionForPageJumps(HttpServletRequest request){

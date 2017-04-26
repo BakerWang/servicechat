@@ -23,4 +23,6 @@ public interface UserMapper {
     int isExits(int id,String password);
     //检查用户密码并返回用户实例
     User returnUserByPw(@Param("id") int id,@Param("password")String password);
+    
+    void updateUserIp(User user);
 }

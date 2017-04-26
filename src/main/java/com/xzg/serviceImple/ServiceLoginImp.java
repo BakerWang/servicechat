@@ -31,16 +31,14 @@ public class ServiceLoginImp implements ServiceLogin  {
 	public User chkPwdRt(int id,String password) {
 		User user =null;
 		password=CookieUtil.getMD5(password);//加密用户密码
-		logger.info("password:"+password);
 		user = usermapper.returnUserByPw(id, password);
 		logger.info("updateUser:"+user);
 		return user;
 	}
 	@Override
-	public void updateUserIpById(User user){
+	public void updateUserIp(User user){
 		try {
-			usermapper.updateUser(user);
-			logger.info("updateUser:"+user.getId());
+			usermapper.updateUserIp(user);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

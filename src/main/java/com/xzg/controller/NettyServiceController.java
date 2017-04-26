@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.xzg.domain.FriendsInfo;
 import com.xzg.domain.User;
@@ -58,7 +57,6 @@ public class NettyServiceController {
 		String forword="";
 		User user = null;
 		int id = Integer.valueOf(userid);
-		//boolean bl = serviceLoginImp.checkPassword(id, password);
 		user = serviceLoginImp.chkPwdRt(id, password);
 		if(null == user){
 			 model.addAttribute("message", "用户名或密码错误!");
@@ -66,10 +64,13 @@ public class NettyServiceController {
 			//request.getSession().setAttribute("sessionListener", sessionListener);*/
 			}else{
 				request.getSession().setAttribute("loginuser", user);
+				request.getSession().setAttribute("id", user.getId());
+				 model.addAttribute("user", user);
 				//登录失败，在login_tmp表中更新字段num-1直到为0时锁定用户（5分钟内）当锁定用户时禁止登录
-				String ip = request.getLocalAddr();
+				String ip = getRemoteHost(request);
+				logger.info("ip:"+ip);
 				user.setIp(ip);
-				serviceLoginImp.updateUserIpById(user);
+				serviceLoginImp.updateUserIp(user);
 				forword="user/menue";
 			}
 		return forword;
@@ -84,5 +85,24 @@ public class NettyServiceController {
 		model.addAttribute("user", user);
 		model.addAttribute("now", now);
 		return "webSocket/webSocket";
+	}
+	
+	/**2017年4月24日
+	 * @author xzg
+	 * TODO 获取客户端的IP地址的方法是：request.getRemoteAddr()
+	 * 如果反向代理软件就不能获取到客户端的真实IP地址
+	 */
+	public String getRemoteHost(HttpServletRequest request){
+	    String ip = request.getHeader("x-forwarded-for");
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+	        ip = request.getHeader("Proxy-Client-IP");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+	        ip = request.getHeader("WL-Proxy-Client-IP");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+	        ip = request.getRemoteAddr();
+	    }
+	    return ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip;
 	}
 }

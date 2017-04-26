@@ -67,12 +67,11 @@
        WHERE 
             id = #{id}
     </update>
-<update id="updateIp" parameterType="com.xzg.domain.User" >
+<update id="updateUserIp" parameterType="com.xzg.domain.User" >
        UPDATE 
-            t_user 
+            t_user
        SET 
-        <if test="ip != null">ip = #{ip},</if>
-        1 = 1 
+        	ip = #{ip}
        WHERE 
             id = #{id}
     </update>
@@ -82,5 +81,4 @@
        WHERE 
              id =#{id}
     </delete>
-    
 </mapper>

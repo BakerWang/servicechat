@@ -42,6 +42,7 @@ public class UpdateServiceImp implements UpdateService,PublicInfo {
 	@Override
 	@Transactional
 	public void save(User user){
+		@SuppressWarnings("unchecked")
 		ValueOperations<String, User> operations=redisTemplate.opsForValue();
 		userResportDao.save(user);
 		//保存到redis

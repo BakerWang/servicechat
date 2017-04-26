@@ -44,9 +44,10 @@ success: function(data) {
     $("#commonLayout_appcreshi").parent().html(data);
 }
 }); */
-$(document).ready(function(){
+$(function(){
+    var websocket  = new WebSocket('wss://localhost:8443/ws');;
 	 $("#startWebsocket").click(function(){
-		 startWebsocket();
+		 //startWebsocket();
 		 $("#stratChat").show();
 	 });
 	 //关闭聊天
@@ -60,10 +61,12 @@ $(document).ready(function(){
 	 $('#sendMsg').click(function(){
 		 send();
 	 });
+	 
 //以下微websocket处理步骤
-	 var websocket = null;
-var  startWebsocket=function(){
+	 //var websocket = null;
+	 var  startWebsocket=function(){
 	    //var url = 'ws://'+window.location.host+'/web/count';
+		 var websocket = null;
 	    //判断当前浏览器是否支持WebSocket
 	    if('WebSocket' in window){
 	    	  websocket = new WebSocket('wss://localhost:8443/ws');
@@ -71,17 +74,19 @@ var  startWebsocket=function(){
 	    else{
 	        alert('浏览器不支持 websocket')
 	    }
-}
+	    
+	 }
 	    //连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	setMessage("error");
 	    };
 	    //连接成功建立的回调方法
 	    websocket.onopen = function(event){
-	    	setMessage("会话开始了！");
+	    	setMessage("会话开始！");
 	    }
 	    //接收到消息的回调方法
 	    websocket.onmessage = function(event){
+	    	console.log("客户端接受的数据-onmessage:"+event.data)
 	    	setMessage(event.data);
 	    }
 	    //连接关闭的回调方法
@@ -93,10 +98,10 @@ var  startWebsocket=function(){
 	        websocket.close();
 	    }
 	    //将消息显示在网页上
-	    function setMessage(event){
+	    function setMessage(data){
 	       // document.getElementById('message').innerHTML += innerHTML + '<br/>';
 	        var ta = document.getElementById('message');
-	        ta.value = ta.value + '\n' + event
+	        ta.value = ta.value + '\n' + data
 	    }
 	    //关闭连接
 	    function closeWebSocket(){
@@ -104,8 +109,9 @@ var  startWebsocket=function(){
 	    }
 	    //发送消息
 	    function send(){
-	        var message = document.getElementById('responseText').value;
-	        websocket.send(message);
+	        var message = document.getElementById('responseText');
+	        websocket.send(message.value);
+	        message.value='';
 	    }
 	    
 	});
