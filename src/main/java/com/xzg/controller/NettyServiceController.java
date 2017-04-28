@@ -33,7 +33,6 @@ public class NettyServiceController {
 	@Resource
 	private ServiceLoginImp serviceLoginImp;
 	@RequestMapping(value="/insertFriend.do",method=RequestMethod.GET)
-	   @ResponseBody
 	   public void insertFriend(){
 		FriendsInfo friendsInfo = new FriendsInfo();
 		friendsInfo.setUser_id(1);
@@ -64,7 +63,7 @@ public class NettyServiceController {
 			//request.getSession().setAttribute("sessionListener", sessionListener);*/
 			}else{
 				request.getSession().setAttribute("loginuser", user);
-				request.getSession().setAttribute("id", user.getId());
+				//request.getSession().setAttribute("id", user.getId());
 				 model.addAttribute("user", user);
 				//登录失败，在login_tmp表中更新字段num-1直到为0时锁定用户（5分钟内）当锁定用户时禁止登录
 				String ip = getRemoteHost(request);

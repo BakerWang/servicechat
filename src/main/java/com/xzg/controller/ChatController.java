@@ -18,7 +18,9 @@ public class ChatController implements ControllerLog{
 	@RequestMapping(value="/getFriendsByUser.do",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<?,?> getFriendsByUser(){
+		
 		return null;
 		
 	}
+	
 }

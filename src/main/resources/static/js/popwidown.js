@@ -45,9 +45,19 @@ success: function(data) {
 }
 }); */
 $(function(){
-    var websocket  = new WebSocket('wss://localhost:8443/ws');;
+	var websocket = null;
+	//开启websocket
+    if('WebSocket' in window){
+  	  websocket = new WebSocket('wss://localhost:8443/ws');
+    }
+    else{
+      confirm('浏览器不支持 websocket')
+    }
 	 $("#startWebsocket").click(function(){
+		 var ta = document.getElementById('message');
+		 ta.value='';
 		 //startWebsocket();
+		 
 		 $("#stratChat").show();
 	 });
 	 //关闭聊天
@@ -55,27 +65,29 @@ $(function(){
 		 closeWebSocket();
 		 setTimeout(function () { 
 			 $("#stratChat").hide();
-		    }, 1000);
+		    }, 10);
 	 });
 	 //发送聊天消息
 	 $('#sendMsg').click(function(){
 		 send();
 	 });
-	 
+//entery 触发发送事件
+	 document.onkeydown = function(e){
+		 var ev = document.all ? window.event : e;
+		 if(ev.keyCode==13) {
+			 send();//处理发送事件
+		 }
+	 }
 //以下微websocket处理步骤
-	 //var websocket = null;
-	 var  startWebsocket=function(){
-	    //var url = 'ws://'+window.location.host+'/web/count';
-		 var websocket = null;
+	 var startWebsocket=function(){
+	    var url = 'wss://'+window.location.host+'/ws';
+	    console.log(url);
 	    //判断当前浏览器是否支持WebSocket
-	    if('WebSocket' in window){
-	    	  websocket = new WebSocket('wss://localhost:8443/ws');
-	    }
-	    else{
-	        alert('浏览器不支持 websocket')
+	    if(websocket == null|| websocket == undefined){
+	    	  websocket = new WebSocket(url);
 	    }
 	    
-	 }
+	 };
 	    //连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	setMessage("error");
@@ -105,15 +117,18 @@ $(function(){
 	    }
 	    //关闭连接
 	    function closeWebSocket(){
-	    		 websocket.close();
+	    		 //websocket.close();
+	    		 //
 	    }
 	    //发送消息
 	    function send(){
 	        var message = document.getElementById('responseText');
-	        websocket.send(message.value);
-	        message.value='';
+	        var data = message.value;
+	        websocket.send(data);
+	        message.value = '';
+	        var ta = document.getElementById('message');
+	        ta.value = ta.value + '\n'+'我：'+data
 	    }
-	    
 	});
 
 

@@ -38,11 +38,10 @@ public class MyWebSocket {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
     private static final String GUEST_PREFIX = "Guest";  
-    private static final AtomicInteger connectionIds = new AtomicInteger(0); 
     private final String nickname;
     private static HttpSession httpSession;
     public MyWebSocket() {  
-        nickname = GUEST_PREFIX + connectionIds.getAndIncrement();  
+        nickname = GUEST_PREFIX;  
     }
     /**
      * 连接建立成功调用的方法*/
