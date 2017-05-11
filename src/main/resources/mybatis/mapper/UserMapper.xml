@@ -12,6 +12,28 @@
         <result column="email" property="email" jdbcType="VARCHAR" />
          <result column="online" property="online" jdbcType="CHAR" />
     </resultMap>
+    
+     <resultMap id="FriendsResultMap" type="com.xzg.domain.User2" >
+        <id property="id" column="id"/>   
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="age" property="age" jdbcType="INTEGER" />
+        <result column="ip" property="ip" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+         <result column="online" property="online" jdbcType="CHAR" />
+         <collection property="friends" ofType="com.xzg.domain.FriendsInfo" javaType="java.util.ArrayList" column="id">
+         	 <result property="user_id" column="user_id" javaType="int"/>
+         	 <result property="friends_id" column="friends_id" javaType="int"/>
+         	 <result property="user_sex" column="userSex" javaType = "com.xzg.domain.UserSexEnum"/>
+         </collection>
+    </resultMap>
+ 
+ 
+ 
+    <select id="getClass" parameterType="int" resultType="map">
+        select c.friends_id, t.id from friends_info c, t_user t  where c.user_id = t.id and c.user_id=#{id}
+    </select>
+
 
     <sql id="Base_Column_List" >
         id, user_name, password,age,ip,email,online
@@ -81,4 +103,7 @@
        WHERE 
              id =#{id}
     </delete>
+    <select id="findFriendsByUser" parameterType="java.lang.Integer" resultMap="FriendsResultMap">
+    select f.user_id,f.* from friends_info f left join t_user t on t.id = f.user_id where t.id=#{id};
+    </select>
 </mapper>

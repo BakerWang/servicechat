@@ -15,6 +15,7 @@ import com.xzg.domain.User;
 public interface UserResportDao extends JpaRepository<User, Long>{
 	
 	User findByUserName(String name);
+	
 /*@Query 注解中编写 JPQL 语句，但必须使用@Modifying 进行修饰. 以通知 SpringData,这是一个UPDATE或DELETE操作 */
     @Modifying
     @Query("update User t set t.userName = :userName where t.id = :id")

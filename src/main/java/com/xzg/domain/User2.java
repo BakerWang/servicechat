@@ -6,52 +6,22 @@ package com.xzg.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-
-@Entity
-@Table(name = "t_user")
-public class User  implements Serializable{
-	/**
-	 * 
-	 */
-	/*public User(int id,String name,int age,String password){
-		this.id=id;
-		this.age=age;
-		this.password=password;
-		this.name=name;
-		
-	}
-	public User(String name,int id){
-		this.id=id;
-		this.name=name;
-		
-	}
-	public User(int id,String name,String password){
-		this.id=id;
-		this.name=name;
-		this.password=password;
-		
-	}*/
+public class User2  implements Serializable{
 	private static final long serialVersionUID = 5963616633321035548L;
-	@Id
-	@GeneratedValue
 	private int id;
-	  @Column(nullable = false, unique = false)//表示唯一
 	private String userName;
-	  @Column(nullable = false)
 	private int age;
-	  @Column(nullable = false)
 	private String password;
-	  @Column(nullable = false)
 	 private String ip;
-	  @Column(nullable = false)
 	 private String email;
-	  @Column(nullable = false)  
+	private List<FriendsInfo> friends;
+	public List<FriendsInfo> getFriends() {
+		return friends;
+	}
+	public void setFriends(List<FriendsInfo> friends) {
+		this.friends = friends;
+	}
 	public String getEmail() {
 		return email;
 	}

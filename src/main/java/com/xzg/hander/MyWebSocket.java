@@ -2,7 +2,6 @@ package com.xzg.hander;
 
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;

@@ -13,6 +13,13 @@ public class FriendsInfo implements Serializable{
 	private String friends_name;
 	private char isonline;
 	private UserSexEnum userSex;
+	/*private User user;
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}*/
 	public UserSexEnum getUserSex() {
 		return userSex;
 	}
